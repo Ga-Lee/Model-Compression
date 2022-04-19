@@ -34,5 +34,20 @@ especially for the redundancy of its weights
 >> * DNN学习能力更强，可以学习一些比较难的任务，把输入转换为更容易区分的soft logit
 >> * logit比hard label包含更丰富的信息
 >> * hard label部分依赖输入，deep net把和目标不相关的feature都过滤掉了，输出的logit可以看做是从input data 中学习的浓缩的最有效的feature
+> 模型蒸馏的方法包括prediction logit distillation（软硬蒸馏），hidden-state distillation， self-attention distillation(在transformer中,如minivit)...）（后面explore到的会继续补充）  
+
+### 4.*Chen(2015)* [Compressing Neural Networks with the Hashing Trick](http://proceedings.mlr.press/v37/chenc15.pdf)
+文章主要工作：  
+* 用hash function 随机地把某一层中的所有weights（用virtual matrix表示）分配到若干hash buckets，其中属于同一bucket的weight共用weight value。真正存weights的是real 
+* 
+* 发现用原始dataset的hard label训练shallow网络时，效果并不理想；使用训练好的deep NN的logit作为regression targets训练shallow网络（prediction logit ***soft distillation***）可以使其学习到与DNN相同的能力。  
+
+#### Note：
+> 启发1. 希望用小的网络（结构简单\参数量少）去完成原本大网络的功能，可以采用模型蒸馏的方法，而不用dataset直接训练小网络，因为直接用hard label不一定work。  
+> 启发2. 对以上情况的解释：
+>> * DNN更robust，可以对一些错误样本进行矫正，使shallow net学习更容易
+>> * DNN学习能力更强，可以学习一些比较难的任务，把输入转换为更容易区分的soft logit
+>> * logit比hard label包含更丰富的信息
+>> * hard label部分依赖输入，deep net把和目标不相关的feature都过滤掉了，输出的logit可以看做是从input data 中学习的浓缩的最有效的feature
 > 模型蒸馏的方法包括prediction logit distillation（软硬蒸馏），hidden-state distillation， self-attention distillation(在transformer中,如minivit)...）（后面explore到的会继续补充）
 
