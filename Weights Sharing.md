@@ -67,4 +67,5 @@ chen在[Compressing Neural Networks with the Hashing Trick](http://proceedings.m
 >> * 至于transformer 的input\output部分的weight tying，是存在一定理论上的可解释性的，因为这些layer具有相近\相反的功能）
 
 ## 2016年
-Han song在 [simplifying the neural networks by soft weight-sharing](http://www.cs.toronto.edu/~hinton/absps/sunspots.pdf) 中提出了soft weight-sharing。  
+终于来到这篇论文啦！前面的准备工作都是为了读懂它...太难啦...
+Han song的 [DEEP COMPRESSION: COMPRESSING DEEP NEURAL NETWORKS WITH PRUNING, TRAINED QUANTIZATION AND HUFFMAN CODING](https://arxiv.org/pdf/1510.00149.pdf) 是2016ICLR最佳论文，
