@@ -77,6 +77,7 @@ Han song的 [DEEP COMPRESSION: COMPRESSING DEEP NEURAL NETWORKS WITH PRUNING, TR
 ![image](https://user-images.githubusercontent.com/74359530/163994184-a80c9888-f00d-45f4-8758-e5428aec1281.png)  
 * 使用K-means，**每一层weights** 被clustering为2^n个clusters，同属于一个cluster的weights share同一权重weight（cluster centroid）；cluster内的所有weights的gradients累加，作为weight的梯度值来更新weight，如图所示：  
 ![image](https://user-images.githubusercontent.com/74359530/163995274-137b664f-3591-41c6-99f7-9485e54bda32.png)  
+![image](https://user-images.githubusercontent.com/74359530/163998548-8fb3ad1e-ed17-419b-94b9-0d54b280d0bd.png)
 
 
 
