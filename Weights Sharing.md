@@ -56,7 +56,7 @@ chen在[Compressing Neural Networks with the Hashing Trick](http://proceedings.m
 
 #### Note：
 > * 使用hash function作为weight sharing的group方法好处之一在于节省了保存每个weights对应shared weight的index需求（**memory-friendly**）
-> * 仍然是**层内**的权重复用Denil(2013) Predicting parameters in deep learning
+> * 仍然是**层内**的weights sharing
 > * 属于先设计复用规则，再训练网络（BP）的学习策略
 > * 是一种**hard** weight sharing
 > * **其实这个实验和我现在的实验本质上非常相近，只不过我的是cross-layer的**
@@ -67,5 +67,23 @@ chen在[Compressing Neural Networks with the Hashing Trick](http://proceedings.m
 >> * 至于transformer 的input\output部分的weight tying，是存在一定理论上的可解释性的，因为这些layer具有相近\相反的功能）
 
 ## 2016年
-终于来到这篇论文啦！前面的准备工作都是为了读懂它...太难啦...
-Han song的 [DEEP COMPRESSION: COMPRESSING DEEP NEURAL NETWORKS WITH PRUNING, TRAINED QUANTIZATION AND HUFFMAN CODING](https://arxiv.org/pdf/1510.00149.pdf) 是2016ICLR最佳论文，
+终于来到这篇论文啦！前面的准备工作都是为了读懂它...太难啦...  
+
+Han song的 [DEEP COMPRESSION: COMPRESSING DEEP NEURAL NETWORKS WITH PRUNING, TRAINED QUANTIZATION AND HUFFMAN CODING](https://arxiv.org/pdf/1510.00149.pdf) 是2016ICLR最佳论文，主要是在LeNet和Alexnet上的简化实验（相对于HashNet是MLP架构，weight sharing终于发展到CNN阶段啦~）  
+* **在这里，weight sharing是为了在剪枝+量化的基础上，进一步压缩需要保存的weight数量**
+* 整个方法流程如下：  
+![image](https://user-images.githubusercontent.com/74359530/163993841-919531f0-878c-4ae8-97da-51219d07c44d.png)  
+* 在剪枝以后，稀疏结构的存储时采用了CSR/CSC+使用index difference的方法：  
+![image](https://user-images.githubusercontent.com/74359530/163994184-a80c9888-f00d-45f4-8758-e5428aec1281.png)  
+* 使用K-means，**每一层weights** 被clustering为2^n个clusters，同属于一个cluster的weights share同一权重weight（cluster centroid）；cluster内的所有weights的gradients累加，作为weight的梯度值来更新weight，如图所示：  
+![image](https://user-images.githubusercontent.com/74359530/163995274-137b664f-3591-41c6-99f7-9485e54bda32.png)  
+
+
+
+
+#### Note：
+> *  
+> * 仍然是**层内**的权重复用
+> * 是基于已经fully trained的原始网络
+
+
