@@ -15,11 +15,11 @@ Lecun在 [Generalization and network design strategies](https://d1wqtxts1xzle7.c
 论文中设计了5个实验，验证了**最小化自由参数数量可以提高模型的泛化能力** 以及**参考目标任务的先验知识可以提高模型设计的有效性**（在文中体现为对Net3设计的启发：利用图像识别任务的先验知识，先用2-D array提取局部特征*local information*（不共享参数的2D卷积操作），再进一步可以结合成更高级特征。Net-3、Net-4、和Net-5都基于此，获得了优秀的泛化性能。）
 
 #### * Note：
-这篇论文的重点在于讨论*Generalization* ，同时这里的权值共享（weight-sharing）指的是Net3、4、5中卷积权重共享，得到的结论是“随着卷积操作共享权重的比例增加，网络整体自由参数数量下降，模型在相同任务上体现出更好的泛化能力。”  
+这篇论文的重点在于讨论*Generalization* ，同时这里的权值共享（weight-sharing）指的是Net3、4、5中卷积权重共享(***hard weight sharing***)，得到的结论是“随着卷积操作共享权重的比例增加，网络整体自由参数数量下降，模型在相同任务上体现出更好的泛化能力。”  
 **这与我想探索的weight-sharing-level不同。** 但是这里是权值共享概念、CNN权值共享的早期雏形，还是挺有意义的。
 
 ## 1992年
-Hinton在 [simplifying the neural networks by soft weight-sharing](http://www.cs.toronto.edu/~hinton/absps/sunspots.pdf) 中提出了soft weight-sharing。  
+Hinton在 [simplifying the neural networks by soft weight-sharing](http://www.cs.toronto.edu/~hinton/absps/sunspots.pdf) 中提出了***soft*** weight-sharing。  
 
 #### 这篇文章同样致力于提升模型的泛化能力。  
 * 可以理解为是上文Lecun工作的进一步发展
@@ -40,8 +40,26 @@ Hinton在 [simplifying the neural networks by soft weight-sharing](http://www.cs
 * 主要贡献包括：1、cluster方法在weight sharing中的应用，这种约束是soft的，而不是严格的复用（其实这里和minivit就有点像了，本质都不是严格意义上的权重复用）2、是一种模型正则化手段，通过使同一个cluster中的权重值尽可能相近，追求仅使用一组weight表达整个模型，降低模型复杂度，达到更高的泛化效果。  
 * 文章实在是比较有年代感了...很多细节并没有看明白，比如在同一个cluster内，权重的梯度计算和更新策略是怎么样的？QAQ 立个Flag以后回来填坑...  
 
-# 近代
-## 2015年  
-chen 在[Compressing Neural Networks with the Hashing Trick](file:///C:/Users/leega/Desktop/HKUSTGZ/paper/model%20compression/weight%20sharing/compressing%20Neural%20Networks%20with%20the%20Hashing%20Trick.pdf)中提到了基于hash-function 的权重分组共享机制
+# 近代  
+### 2015
+chen在[Compressing Neural Networks with the Hashing Trick](http://proceedings.mlr.press/v37/chenc15.pdf)
+文章主要工作：  
+* 用hash function 随机地把一层中的所有weights（用virtual matrix表示）分配到若干hash buckets，其中属于同一bucket的weight共用weight value。  
+![image](https://user-images.githubusercontent.com/74359530/163957470-c5895509-cdb8-4d4d-8a73-d41203f5fe8a.png)  
+  
+* 具体所使用的hash function：  
+![image](https://user-images.githubusercontent.com/74359530/163957628-4ba94746-a462-49ee-b303-0b5b43f6e17f.png)  
+
+* gradient for Kth shared weight in layer_l：  
+
+![image](https://user-images.githubusercontent.com/74359530/163958112-8ac45277-2e46-4970-8b8a-ddf33ad15710.png)  
+
+#### Note：
+> * 使用hash function作为weight sharing的group方法好处之一在于节省了保存每个weights对应shared weight的index需求（**memory-friendly**）
+> * 仍然是**层内**的权重复用
+> * 属于先设计复用规则，再训练网络（BP）的学习策略
+> * 是一种**hard** weight sharing
+> * 其实这个实验和我现在的实验本质上非常相近，只不过我的是cross-layer的（这里突然想到一个问题，为什么explore到目前，所有的工作都是in layer的。因为有那篇）
+
 ## 2016年
 Han song在 [simplifying the neural networks by soft weight-sharing](http://www.cs.toronto.edu/~hinton/absps/sunspots.pdf) 中提出了soft weight-sharing。  
