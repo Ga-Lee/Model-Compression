@@ -56,10 +56,15 @@ chen在[Compressing Neural Networks with the Hashing Trick](http://proceedings.m
 
 #### Note：
 > * 使用hash function作为weight sharing的group方法好处之一在于节省了保存每个weights对应shared weight的index需求（**memory-friendly**）
-> * 仍然是**层内**的权重复用
+> * 仍然是**层内**的权重复用Denil(2013) Predicting parameters in deep learning
 > * 属于先设计复用规则，再训练网络（BP）的学习策略
 > * 是一种**hard** weight sharing
-> * 其实这个实验和我现在的实验本质上非常相近，只不过我的是cross-layer的（这里突然想到一个问题，为什么explore到目前，所有的工作都是in layer的。因为有那篇）
+> * **其实这个实验和我现在的实验本质上非常相近，只不过我的是cross-layer的**
+>> 这里突然想到一个问题，为什么explore到目前，所有的工作都是in layer的:
+>> * 因为有Denil年那一篇 *Predicting parameters in deep learning*证明了层内parameter redundancy的理论支撑，层内的weights参数量是过剩的，顺其自然地weight sharing inner layer仍然保证了足够的表达能力，所以理论上是可行的。
+>> * 但是目前还没有看到证明layer之间capacity redundancy的理论，所以能不能跨层weight sharing，特别是hard sharing，还需要继续explore观察有没有相关理论研究（坑+1）；
+>> * minivit是跨层的soft sharing的实例
+>> * 至于transformer 的input\output部分的weight tying，是存在一定理论上的可解释性的，因为这些layer具有相近\相反的功能）
 
 ## 2016年
 Han song在 [simplifying the neural networks by soft weight-sharing](http://www.cs.toronto.edu/~hinton/absps/sunspots.pdf) 中提出了soft weight-sharing。  
