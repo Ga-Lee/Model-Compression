@@ -1,5 +1,5 @@
 # Notebook for Model Compression
-Papers and works related to model compression
+mainly about papers and works related to model compression
 ## including:  
 * weight sharing
 * weight analysis
@@ -7,3 +7,4 @@ Papers and works related to model compression
 * progressive learning
 * To be continued...
 
+好多论文来不及写笔记了   QAQ
